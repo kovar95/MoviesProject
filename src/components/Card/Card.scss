@@ -1,0 +1,131 @@
+.card {
+    font-size: 17px;
+    font-family: monospace;
+    position: relative;
+    width: 80%;
+    height: 120px;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 25px;
+    color: #bebebe;
+    font-weight: 600;
+    text-shadow: 0.5px 0.5px 1px black;
+    background: linear-gradient(45deg,#C02425,#F0CB35);
+    border: 1px solid #bebebe;
+    &:hover {
+        box-shadow: 4px 4px 7px gray, -4px 4px 7px gray;
+    }
+    >span {
+    	 display: block;
+         font-weight: 100;
+  		 margin: 0;
+         margin-bottom: 5px;
+         a{
+            color: #bebebe;
+            text-decoration: none;
+            &:hover {
+                color: gray;
+            }
+         }
+         span {
+                cursor: pointer;
+                &:hover {
+                    color: gray;
+                }
+            }
+         &.rating {
+            border: 1px solid #ffffff;
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            text-align: center;
+            padding-top: 8px;
+            background-color: #C02425;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: #ffffff;
+            box-shadow: 1px 1px 2px #C02425;
+         }
+    }
+    >img {
+        position: absolute;
+        display: block;
+        width: 71px;
+        bottom: 5px;
+        right: 9px;
+     }
+    div {
+        &.more {
+            position: absolute;
+            left: 1px;
+            bottom: 12px;
+            padding: 0;
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+            img {
+                display: block;
+                width: 100%;
+                cursor: pointer;
+                position: absolute;
+                bottom: -7px;
+                left: 7px;
+                &:hover {
+                    width: 120%;
+                }
+            }  
+        }
+        &.eye {
+            position: absolute;
+            right: 95px;
+            bottom: 10px;
+            padding: 0;
+            cursor: pointer;
+            width: 25px;
+            height: 25px;
+            img {
+                width: 100%;
+                cursor: pointer;
+                &:hover {
+                    width: 120%;
+                }
+            }  
+        }
+        &.trash {
+            position: absolute;
+            right: 55px;
+            bottom: 17px;
+            padding: 0;
+            cursor: pointer;
+            width: 25px;
+            height: 25px;
+            img {
+                width: 100%;
+                cursor: pointer;
+                &:hover {
+                    width: 120%;
+                }
+            }  
+        }
+        &.arrows {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            padding: 0;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            flex-direction: column;
+            img {
+                display: block;
+                width: 35px;
+                height: 17px;
+                cursor: pointer;
+                &:hover {
+                    box-shadow: 0 2px 4px gray;
+                }
+            }  
+        }
+    }
+}

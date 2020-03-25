@@ -1,2 +1,2 @@
-# MoviesProject
-Movies project React, Redux, Router, API
+# React_Redux
+SpaceX app using Redux
