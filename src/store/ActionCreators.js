@@ -1,6 +1,5 @@
 import * as actionTypes from './ActionTypes';
 import {Communicators} from '../Communicators';
-import axios from 'axios';
 
 const formatData = myData => {
 	const data = [];
@@ -28,6 +27,19 @@ const sortMovies = (a, b) =>{
     return comparison;
   }
 
+ const takeGenres = arrayOfFilms => {
+	const arrayOfGenres = [];
+	arrayOfFilms.forEach( movie => {
+		const innerGenres = movie.Genre.split(", ");
+		innerGenres.forEach( genre => {
+			if (!arrayOfGenres.includes(genre)) {
+				arrayOfGenres.push(genre);
+			}
+		})
+	})
+	return arrayOfGenres;
+}
+
 const updateMore = more => {
 	return {
 		type: actionTypes.MORE_UPDATE,
@@ -42,16 +54,24 @@ export const updateFilteredData = filteredData => {
 	}
 }
 
-const updateToWatchData = toWatchData => {
-	console.log(toWatchData);
+const updateToWatchData = (toWatchData, genres) => {
 	return {
 		type: actionTypes.TO_WATCH_UPDATE,
-		toWatchMovies: toWatchData
+		toWatchMovies: toWatchData,
+		genres: genres
+	}
+}
+
+export const updateGenreFilteredData = genreData => {
+	const myElement = document.querySelector(".filter");
+	myElement.firstChild.nodeValue = "Select genre";
+	return {
+		type: actionTypes.GENRE_DATA_UPDATE,
+		genreFilteredData: genreData,
 	}
 }
 
 const updateWatchedData = watchedData => {
-	console.log(watchedData);
 	return {
 		type: actionTypes.WATCHED_UPDATE,
 		watchedMovies: watchedData
@@ -60,12 +80,11 @@ const updateWatchedData = watchedData => {
 
 export const getFilteredData = searchedTerm => {
 	return dispatch => {
-		fetch(`https://www.omdbapi.com/?type=movie&apikey=2d2c144c&s=${searchedTerm}`)
+		fetch(`${Communicators.omdbURL}&s=${searchedTerm}`)
 	  	.then( response => response.json())
 	    .then( myJson =>  {
 	        if (myJson.Response === "True") {
 	        	dispatch(updateFilteredData(myJson.Search));
-	        	console.log(myJson);
 	        } else {
 	        	dispatch(updateFilteredData([]));
 	        }
@@ -76,12 +95,15 @@ export const getFilteredData = searchedTerm => {
 
 export const addToWatch = imdbID => {
 	return (dispatch, getState) => {
-		fetch(`https://www.omdbapi.com/?type=movie&apikey=2d2c144c&i=${imdbID}`)
+		fetch(`${Communicators.omdbURL}&i=${imdbID}`)
 	  	.then( response => response.json())
 	    .then( myJson =>  {
 	    	const filteredArray = getState().toWatchMovies.filter( item => item.imdbID === imdbID);
 	    	if (!filteredArray.length) {
-	    		let order = getState().toWatchMovies[getState().toWatchMovies.length -1].order + 1;
+	    		let order = 1;
+	    		if (getState().toWatchMovies.length) {
+	    			order = getState().toWatchMovies[getState().toWatchMovies.length -1].order + 1;
+	    		}
 	    		myJson.order = order;
 	    		Communicators.Post(myJson)
 		        .then( response => {
@@ -89,7 +111,8 @@ export const addToWatch = imdbID => {
 				        Communicators.Fetch()
 				        .then( response => {
 				        	const formatedData = formatData(response).sort(sortMovies);
-				        	dispatch(updateToWatchData(formatedData));
+				        	const genres = takeGenres(formatedData);
+				        	dispatch(updateToWatchData(formatedData, genres));
 				        })
 				        .catch( error => alert(`Error: ${error}`));
 				    }
@@ -109,7 +132,8 @@ export const addToWatched = element => {
       			Communicators.Fetch()
 		        .then( response => {
 		        	const formatedData = formatData(response);
-		        	dispatch(updateToWatchData(formatedData));
+		        	const genres = takeGenres(formatedData);
+		        	dispatch(updateToWatchData(formatedData, genres));
 		        })
 		        .catch( error => alert(`Error: ${error}`));
 	    		Communicators.PostWatched(element)
@@ -138,7 +162,8 @@ export const deleteMovie = databaseID => {
 		        Communicators.Fetch()
 		        .then( response => {
 		        	const formatedData = formatData(response).sort(sortMovies);
-		        	dispatch(updateToWatchData(formatedData));
+		        	const genres = takeGenres(formatedData);
+		        	dispatch(updateToWatchData(formatedData, genres));
 		        })
 		        .catch( error => alert(`Error: ${error}`));
 		    }
@@ -169,7 +194,8 @@ export const onLoad = () => {
 		Communicators.Fetch()
 	    .then( response => {
 	    	const formatedData = formatData(response).sort(sortMovies);
-	    	dispatch(updateToWatchData(formatedData));
+	    	const genres = takeGenres(formatedData);
+	    	dispatch(updateToWatchData(formatedData, genres));
 	    })
 	    .catch( error => alert(`Error: ${error}`));
 	}
@@ -188,25 +214,22 @@ export const onWatchedLoad = () => {
 
 
 export const getMore = databaseID => {
-	return dispatch => {
-		Communicators.More(databaseID)
-	    .then( myJson => dispatch(updateMore(myJson)))
-	    .catch( error => alert(`Error: ${error}`));
-	}
-}
-
-export const getMoreWatched = databaseID => {
-	return dispatch => {
-		Communicators.MoreWatched(databaseID)
-	    .then( myJson => dispatch(updateMore(myJson)))
-	    .catch( error => alert(`Error: ${error}`));
-	}
-}
-
-export const selectGenre = genre => {
 	return (dispatch, getState) => {
-		const filteredArray = getState().toWatchMovies.filter( item => item.Genre.includes(genre));
-		dispatch(updateToWatchData(filteredArray));
+		let filteredArray = getState().toWatchMovies.filter( movie => movie.id === databaseID);
+		if (!filteredArray.length) {
+			filteredArray = getState().watchedMovies.filter( movie => movie.id === databaseID);
+		}
+		dispatch(updateMore(filteredArray[0]));
+	}
+}
+
+export const filterGenre = genre => {
+	return (dispatch, getState) => {
+		const myElement = document.querySelector(".filter");
+		myElement.firstChild.nodeValue = genre;
+		const filteredArray = getState().toWatchMovies.filter( item => item.Genre.toLowerCase().includes(genre.toLowerCase()));
+		dispatch(updateGenreFilteredData(filteredArray));
+		myElement.firstChild.nodeValue = genre;
 	}
 }
 
@@ -229,7 +252,8 @@ export const moveUp = order => {
 							.then( response => {
 								const formatedData = formatData(response).sort(sortMovies);
 					        	console.log(formatedData);
-					        	dispatch(updateToWatchData(formatedData));
+					        	const genres = takeGenres(formatedData);
+					        	dispatch(updateToWatchData(formatedData, genres));
 							})
 							.catch( error => alert(`Error: ${error}`));
 						}
@@ -262,7 +286,8 @@ export const moveDown = order => {
 							.then( response => {
 								const formatedData = formatData(response).sort(sortMovies);
 					        	console.log(formatedData);
-					        	dispatch(updateToWatchData(formatedData));
+					        	const genres = takeGenres(formatedData);
+					        	dispatch(updateToWatchData(formatedData, genres));
 							})
 							.catch( error => alert(`Error: ${error}`));
 						}

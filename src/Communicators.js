@@ -3,6 +3,7 @@ class Communicators {
 
 	static baseURL = 'https://movies-22220.firebaseio.com/movies';
 	static watchedURL = 'https://movies-22220.firebaseio.com/watched';
+	static omdbURL = 'https://www.omdbapi.com/?type=movie&apikey=2d2c144c';
 
 	static Fetch = () => {
 		return fetch(`${Communicators.baseURL}.json`)

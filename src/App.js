@@ -1,9 +1,8 @@
 import React, {Fragment} from 'react';
 import './App.scss';
-import {Cards} from './components/Cards/Cards';
+import Cards from './components/Cards/Cards';
 import {Preview} from './components/Preview/Preview';
 import {Header} from './components/Header/Header';
-import Watched from './components/Watched/Watched';
 import {Switch, Route} from 'react-router-dom';
 import {connect} from 'react-redux';
 import * as actionCreators from './store/ActionCreators';
@@ -15,11 +14,16 @@ class App extends React.Component {
     this.props.onLoad(); 
   }
 
+  componentDidUpdate() {
+    if (window.location.pathname !== '/') {
+      this.props.onMoreUpdate(window.location.pathname.substr(1));
+    }
+  }
+
   render() {
-    const {filteredData, more, favouritesData, toWatchMovies, watchedMovies, onLoad} = this.props;
-    const {Actors, Director, Plot, Genre, Poster, Released, Runtime, Title, imdbRating, imdbID} = this.props.more;
-    const preview = "/" + imdbID;
-    
+    const {more, toWatchMovies, watchedMovies, genreFilteredMovies, genres, filterGenre, updateGenreFilteredData} = this.props;
+    const {Actors, Director, Plot, Genre, Poster, Released, Runtime, Title, imdbRating} = more;
+
     return (
 
         <Fragment>
@@ -27,18 +31,32 @@ class App extends React.Component {
             <Route exact path="/" >
                 <Header />
 
-                <Cards movies={toWatchMovies} />
+              { !toWatchMovies.length && <h1 className="nodata"> Search for your favourite movies</h1>}
 
-                <Watched movies={watchedMovies} />
+              { !!toWatchMovies.length &&
+                <Fragment>
+                  <Cards movies={genreFilteredMovies} /> 
 
-                <div className="reset">
-                  Reset filters
-                  <img src={reset} alt="reset" onClick={() => onLoad()} />
-                </div>
+                  <Cards watched movies={watchedMovies} /> 
+
+                  <div className="reset">
+                    <img src={reset} alt="reset" onClick={() => updateGenreFilteredData(toWatchMovies)} />
+                  </div>
+
+                  <div className="filter"> 
+                    Select genre
+                    <ul>
+                    {genres.map( element => <li key={element} onClick={() => filterGenre(element) }>{element}</li>)}
+                    </ul>
+                  </div>
+
+                </Fragment>
+              }
 
             </Route>
 
-            <Route exact path={preview} >
+            <Route exact path={window.location.pathnamet} >
+
                 {more && <Preview title={Title}
                                   released={Released}
                                   runtime={Runtime}
@@ -59,17 +77,21 @@ class App extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    filteredData : state.filteredData,
     more: state.more,
     toWatchMovies: state.toWatchMovies,
     watchedMovies: state.watchedMovies,
+    genreFilteredMovies : state.genreFilteredMovies,
+    genres : state.genres,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     onFilteredDataUpdate : filteredData => dispatch(actionCreators.updateFilteredData(filteredData)),
-    onLoad : () => dispatch(actionCreators.onLoad())
+    onLoad : () => dispatch(actionCreators.onLoad()),
+    onMoreUpdate : uniqueId => dispatch(actionCreators.getMore(uniqueId)),
+    filterGenre: myGenre => dispatch(actionCreators.filterGenre(myGenre)),
+    updateGenreFilteredData : myData => dispatch(actionCreators.updateGenreFilteredData(myData)),
   }
 }
 

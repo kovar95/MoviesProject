@@ -1,6 +1,6 @@
 
 header {
-    background: linear-gradient(45deg, #fc4a1a, #f7b733);
+    background: linear-gradient(45deg, #e31144, #120f27);
 	padding: 10px 0;
 	box-shadow: 1px 1px 2px white, -1px 1px 2px white;
 	position: fixed;
@@ -18,6 +18,19 @@ header {
 			align-items:center;
 			width: 100%;
 			margin: 0 auto;
+			padding: 0 10px;
+		}
+	}
+}
+
+@media screen and (max-width: 525px) {
+	header {
+		height: 88px;
+		div {
+			&.main-wrapper {
+				flex-direction: column;
+				padding: 0 20px;
+			}
 		}
 	}
 }

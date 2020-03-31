@@ -2,26 +2,43 @@
     font-size: 17px;
     font-family: monospace;
     position: relative;
-    width: 80%;
-    height: 120px;
-    margin: 20px;
+    width: 23%;
+    min-height: 440px;
+    height: 100%;
+    margin: 20px 2px;
     padding: 20px;
-    border-radius: 25px;
     color: #bebebe;
     font-weight: 600;
     text-shadow: 0.5px 0.5px 1px black;
-    background: linear-gradient(45deg,#C02425,#F0CB35);
-    border: 1px solid #bebebe;
+    box-shadow: 3px 3px 7px black, -3px -3px 7px black;
     &:hover {
         box-shadow: 4px 4px 7px gray, -4px 4px 7px gray;
     }
+    .background {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
     >span {
-    	 display: block;
-         font-weight: 100;
-  		 margin: 0;
-         margin-bottom: 5px;
+        text-align: center;
+	    display: block;
+        font-weight: 100;
+        margin: 0;
+        margin-bottom: 5px;
+        width: 100%;
+        border-radius: 6px;
+        padding: 3px;
+        text-align: center;
+        text-transform: uppercase;
+        font-weight: bold;
+        &:first-child {
+            background-color: rgba(0, 0, 0, 0.6);
+        }
          a{
-            color: #bebebe;
+            color: white;
             text-decoration: none;
             &:hover {
                 color: gray;
@@ -30,23 +47,42 @@
          span {
                 cursor: pointer;
                 &:hover {
-                    color: gray;
+                    color: lightgray;
                 }
             }
          &.rating {
-            border: 1px solid #ffffff;
+            border: 1px solid black;
             height: 40px;
             width: 40px;
             border-radius: 50%;
             text-align: center;
             padding-top: 8px;
-            background-color: #C02425;
+            background-color: #d32380;
             position: absolute;
-            top: 10px;
-            right: 10px;
+            bottom: 10px;
+            font-size: 17px;
+            left: 10px;
             color: #ffffff;
-            box-shadow: 1px 1px 2px #C02425;
+            box-shadow: 1px 1px 2px #919191;
+            opacity: 0.9;
          }
+    }
+    .genres{
+        display: flex;
+        flex-wrap: wrap;
+        background-color: none;
+        span{
+            background-color: #d32380;
+            padding: 3px 5px;
+            text-align: center;
+            border-radius: 5px;
+            color: white;
+            margin: 2px;
+            opacity: 0.8;
+            &:hover {
+                opacity: 1;
+            }
+        }
     }
     >img {
         position: absolute;
@@ -79,53 +115,163 @@
         &.eye {
             position: absolute;
             right: 95px;
-            bottom: 10px;
-            padding: 0;
+            bottom: 17px;
             cursor: pointer;
             width: 25px;
             height: 25px;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 2px;
+            border-radius: 5px;
+            border: 0.5px solid black;
+            &:hover {
+                box-shadow: 2px 2px 5px white;
+            }
             img {
                 width: 100%;
                 cursor: pointer;
-                &:hover {
-                    width: 120%;
-                }
             }  
         }
         &.trash {
             position: absolute;
             right: 55px;
             bottom: 17px;
-            padding: 0;
             cursor: pointer;
             width: 25px;
             height: 25px;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 3px;
+            border-radius: 5px;
+            border: 0.5px solid black;
+            &:hover {
+                box-shadow: 2px 2px 5px white;
+            }
             img {
                 width: 100%;
                 cursor: pointer;
-                &:hover {
-                    width: 120%;
-                }
+            }  
+        }
+        &.trash1 {
+            position: absolute;
+            right: 15px;
+            bottom: 17px;
+            cursor: pointer;
+            width: 25px;
+            height: 25px;
+            background-color: rgba(60, 60, 60, 0.9);
+            padding: 3px;
+            border-radius: 5px;
+            border: 0.5px solid white;
+            &:hover {
+                box-shadow: 2px 2px 5px white;
+            }
+            img {
+                width: 100%;
+                cursor: pointer;
             }  
         }
         &.arrows {
             position: absolute;
-            right: 10px;
-            bottom: 10px;
-            padding: 0;
-            width: 35px;
-            height: 35px;
+            right: 7px;
+            bottom: 15px;
+            width: 21px;
+            height: 29px;
             display: flex;
             flex-direction: column;
+            justify-content: space-around;
+            background-color: rgba(255, 255, 255, 0.9);
+            align-items: center;
+            padding: 0 16px;
+            border: 0.5px solid black;
+            border-radius: 5px;
             img {
                 display: block;
-                width: 35px;
-                height: 17px;
+                width: 23px;
+                height: 15px;
                 cursor: pointer;
                 &:hover {
-                    box-shadow: 0 2px 4px gray;
+                    opacity: 0.3;
                 }
             }  
         }
     }
+}
+
+
+@media screen and (max-width: 1200px) {
+   .card {
+        width: 25%;
+        min-height: 400px;
+    }
+    
+}
+
+@media screen and (max-width: 1000px) {
+   .card {
+        width: 33%;
+    }
+    
+}
+
+@media screen and (max-width: 800px) {
+   .card {
+        width: 100%;
+        max-width: 360px;
+        min-height: 440px;
+    }
+    
+}
+
+@media screen and (max-width: 525px) {
+   .card {
+        width: 33%;
+        min-height: 250px;
+        height: 100%;
+        font-size: 10px;
+        padding: 8px;
+        >span {
+            &.rating {
+                height: 20px;
+                width: 20px;
+                padding-top: 3px;
+                font-size: 9px;
+            }
+        }
+        div {
+            &.arrows {
+                width: 18px;
+                height: 18px;
+                display: flex;
+                padding: 0 11px;
+                img {
+                    width: 17px;
+                    height: 10px;
+
+                }  
+            }
+            &.trash {
+                right: 35px;
+                bottom: 15px;
+                width: 20px;
+                height: 20px;
+            }
+            &.eye {
+                right: 58px;
+                bottom: 16px;
+                width: 20px;
+                height: 18px;
+                padding-top: 4px;
+            }
+        }
+        
+    }
+    
+}
+
+@media screen and (max-width: 500px) {
+   .card {
+        width: 227px;
+        max-width: 300px;
+        min-height: 280px;
+    }
+    
 }

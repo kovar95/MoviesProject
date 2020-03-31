@@ -4,7 +4,7 @@ import logo from '../../images/logo.png';
 
 const Logo = () => {
 	return (
-		<a className="logo" href="#">
+		<a className="logo" href="/">
 			<img src={logo} alt="logo"/>
 		</a>
 	);

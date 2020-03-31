@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import './Preview.scss';
-import uuid from 'react-uuid';
 import {Link} from 'react-router-dom';
 
 class Preview extends Component{
 
 	render() {
 		const {actors, director, plot, genre, poster, released, runtime, title, rating} = this.props;
+		
 		return (
 			<div className="show">
 				<section className="preview">

@@ -4,7 +4,9 @@ const initialState = {
 	more : '',
     filteredData : [],
     toWatchMovies: [],
-    watchedMovies: []
+    watchedMovies: [],
+    genreFilteredMovies: [],
+    genres: [],
 }
 
 const reducer = (state = initialState, action) => {
@@ -26,7 +28,15 @@ const reducer = (state = initialState, action) => {
 		case actionTypes.TO_WATCH_UPDATE :
 			return {
 				...state,
-				toWatchMovies: action.toWatchMovies
+				toWatchMovies: action.toWatchMovies,
+				genreFilteredMovies : action.toWatchMovies,
+				genres: action.genres,
+			};
+
+		case actionTypes.GENRE_DATA_UPDATE :
+			return {
+				...state,
+				genreFilteredMovies : action.genreFilteredData,
 			};
 
 		case actionTypes.WATCHED_UPDATE :
