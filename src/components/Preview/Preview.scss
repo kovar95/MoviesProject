@@ -3,7 +3,6 @@ div.show{
     height: 100%;
     position: absolute;
     top: 0px;
-    // background-color: rgba(22, 56, 98, 0.95);
     z-index: 22;
     section {
         &.preview {
@@ -12,7 +11,7 @@ div.show{
             width: 90%;
             margin: 50px auto;
             height: 575px;
-            background: linear-gradient(45deg, #c02425, #f0cb35);
+            background: linear-gradient(45deg, #e31144, #120f27);
             padding: 10px;
             display: flex;
             align-items: flex-start;
@@ -45,7 +44,7 @@ div.show{
                         text-align: center;
                         font-size: 35px;
                         padding-top: 7px;
-                        background-color: #ff7c00;
+                        background-color: #e31144;
                         box-shadow: 1px 1px 2px;
                     }
                 }

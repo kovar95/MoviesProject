@@ -251,7 +251,6 @@ export const moveUp = order => {
 							Communicators.Fetch()
 							.then( response => {
 								const formatedData = formatData(response).sort(sortMovies);
-					        	console.log(formatedData);
 					        	const genres = takeGenres(formatedData);
 					        	dispatch(updateToWatchData(formatedData, genres));
 							})
@@ -285,7 +284,6 @@ export const moveDown = order => {
 							Communicators.Fetch()
 							.then( response => {
 								const formatedData = formatData(response).sort(sortMovies);
-					        	console.log(formatedData);
 					        	const genres = takeGenres(formatedData);
 					        	dispatch(updateToWatchData(formatedData, genres));
 							})
