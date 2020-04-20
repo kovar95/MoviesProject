@@ -9,14 +9,16 @@ class Search extends Component {
 
 	state = {
 		searchedTerm : '',
+		drop: false,
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
 		const {filteredData, toWatchMovies} = this.props;
-		const {searchedTerm} = this.state;
+		const {searchedTerm, drop} = this.state;
 		if (nextState.searchedTerm !== searchedTerm || 
 			nextProps.filteredData.length !== filteredData.length || 
-			nextProps.toWatchMovies.length !== toWatchMovies.length) 
+			nextProps.toWatchMovies.length !== toWatchMovies.length ||
+			nextState.drop !== drop) 
 		{
 			return true
 		}
@@ -40,7 +42,7 @@ class Search extends Component {
 	}
 
 	render() {
-		const {searchedTerm} = this.state;
+		const {searchedTerm, drop} = this.state;
 		const {filteredData, addToWatch} = this.props;
 
 		return(
@@ -51,8 +53,11 @@ class Search extends Component {
 					   placeholder="Search" 
 					   name="Search" 
 					   onChange={ e => this.addValue(e)} 
+					   onFocus={() => this.setState({ drop: true})}
+					   onBlur={() => this.setState({ drop: false})}
+
 				/>
-				{filteredData.length !== 0 && <div className="dropdown"> 
+				{(filteredData.length !== 0 && drop) && <div className="dropdown"> 
                   {filteredData.map( element => <div key={uuid()}>
 								                 	<p>{element.Title.length > 40 ? element.Title.substring(0,35) + "..." : element.Title}</p><span onClick={() => addToWatch(element.imdbID) }>+</span>
 							                  	</div>)}

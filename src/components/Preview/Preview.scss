@@ -35,17 +35,16 @@ div.show{
                     font-size: 21px;
                     text-shadow: 1px 1px 2px black;
                     &.rating {
-                        width: 70px;
-                        height: 70px;
-                        border: 1px solid #ea620a;
+                        width: 90px;
+                        height: 90px;
                         position: absolute;
-                        right: 30px;
-                        border-radius: 50%;
+                        background: url('../../images/star.png');
+                        background-size: contain;
+                        right: 3px;
+                        top: 56px;
                         text-align: center;
                         font-size: 35px;
-                        padding-top: 7px;
-                        background-color: #e31144;
-                        box-shadow: 1px 1px 2px;
+                        padding-top: 24px;
                     }
                 }
                 &.pics{
@@ -140,6 +139,7 @@ div.show{
                         right: 13px;
                         font-size: 16px;
                         top: 66px;
+                        padding-top: 10px;
                     }
                 }
                 &.pics {
@@ -215,7 +215,7 @@ div.show{
     div.show{
         section {
             &.preview {
-                height: 280px;
+                height: 220px;
                 p{
                     font-size: 10px;
                 }
